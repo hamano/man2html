@@ -16,6 +16,12 @@
 static int relat_html_style = 0;
 
 /*
+ * The default is to use cgibase. With current html style
+ * we generate URLs of the form "./page.html".
+ */
+static int current_html_style = 0;
+
+/*
  * Either the user is non-local (or local, but using httpd),
  * in which case we use http:/cgi-bin, or the user is local
  * and uses lynx, and we use lynxcgi:/home/httpd/cgi-bin.
@@ -67,11 +73,15 @@ void
 set_relative_html_links(void) {
      relat_html_style = 1;
 }
+void
+set_current_html_links(void) {
+     current_html_style = 1;
+}
 
 /* What shall we say in case of relat_html_style? */
 static char *signature = "<HR>\n"
 "This document was created by\n"
-"<A HREF=\"%s%s\">man2html</A>,\n"
+"<A HREF=\"http://github.com/hamano/man2html/\">man2html</A>,\n"
 "using the manual pages.<BR>\n"
 "%s\n";
 
@@ -92,7 +102,8 @@ void print_sig()
     strftime(timebuf+6, TIMEBUFSZ-6, TIMEFORMAT, timetm);
     timebuf[TIMEBUFSZ-1] = 0;
 #endif
-    printf(signature, cgibase, man2htmlpath, timebuf);
+    //printf(signature, cgibase, man2htmlpath, timebuf);
+    printf(signature, timebuf);
 }
 
 void
@@ -102,7 +113,14 @@ include_file_html(char *g) {
 
 void
 man_page_html(char *sec, char *h) {
-	if (relat_html_style) {
+	if (current_html_style) {
+		if (!h)
+			printf("<A HREF=\"./\">"
+			       "Return to Main Contents</A>");
+		else
+			printf("<A HREF=\"./%s.html\">%s</A>",
+			       h, h);
+	} else if (relat_html_style) {
 		if (!h)
 			printf("<A HREF=\"../index.html\">"
 			       "Return to Main Contents</A>");

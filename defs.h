@@ -36,6 +36,7 @@ extern void set_lynxcgibase(char *);
 extern void set_cgibase(char *);
 extern void set_man2htmlpath(char *);
 extern void set_relative_html_links(void);
+extern void set_current_html_links(void);
 extern void *xmalloc(size_t size);
 extern void *xrealloc(void *ptr, size_t size);
 extern char *xstrdup(const char *s);
