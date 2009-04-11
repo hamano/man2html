@@ -133,7 +133,8 @@ add_links(char *c)
 
     nr=0;
     idtest[0]=strstr(c+1,"://");
-    idtest[1]=strchr(c+1,'@');
+    /* idtest[1]=strchr(c+1,'@'); */
+    idtest[1]=NULL; /* don't create mailto links. */
     idtest[2]=strstr(c,"www.");
     idtest[3]=strstr(c,"ftp.");
     idtest[4]=strchr(c+1,'(');
